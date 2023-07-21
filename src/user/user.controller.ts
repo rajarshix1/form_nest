@@ -23,6 +23,10 @@ export class UserController {
       if(loginUser.email && loginUser.password.length>=6){
         const data= await this.appService.login(loginUser)
         console.log('data', data);
+       if(data.status==0){
+        res.send(data)
+       }
+       else{
         res.cookie('access_token', data.JWT, 
         {
           httpOnly: true,
@@ -32,6 +36,7 @@ export class UserController {
       })
         data.JWT = undefined
         res.send({status: 1, data:data})
+       }
     }
     else{
         res.send({status: 0, message: "Invalid username or password"})
